@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Service;
 
 import kr.or.ddit.dao.MemberDAO;
 import kr.or.ddit.dto.MemberVO;
@@ -16,6 +17,7 @@ import kr.or.ddit.request.Criteria;
 import kr.or.ddit.request.PageMaker;
 import kr.or.ddit.request.SearchCriteria;
 
+@Service
 public class MemberServiceImpl implements MemberService {
 
 	private MemberDAO memberDAO;

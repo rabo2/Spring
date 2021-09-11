@@ -21,10 +21,8 @@
 function subMenu(mCode){
 	//alert("function call sumMenu()"+mCode);	
 	if(mCode!="M000000"){
-		$.getJSON("/subMenu.do?mCode="+mCode,function(data){
-			//console.log(data);
+		$.getJSON("<%=request.getContextPath()%>/subMenu.do?mCode="+mCode,function(data){
 			printData(data,$('.subMenuList'),$('#subMenu-list-template'),'.subMenu');
-			
 		});
 	}else{
 		$('.subMenuList').html("");		
@@ -70,7 +68,7 @@ function printData(dataArr,target,templateObject,removeClass){
 <script type="text/x-handlebars-template"  id="subMenu-list-template" >
 {{#each .}}
 	<li class="nav-item subMenu" >
-      	<a href="javascript:goPage('{{murl}}','{{mcode}}');" class="nav-link">
+      	<a href="javascript:goPage('<%=request.getContextPath()%>{{murl}}','{{mcode}}');" class="nav-link">
           <i class="{{micon}}"></i>
              <p>{{mname}}</p>
         </a>

@@ -15,11 +15,6 @@ import kr.or.ddit.request.SearchCriteria;
 
 public class NoticeServiceImpl implements NoticeService {
 	
-	private SqlSessionFactory sqlSessionFactory;
-	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-		this.sqlSessionFactory = sqlSessionFactory;
-	}
-
 	private NoticeDAO noticeDAO;
 	public void setNoticeDAO(NoticeDAO noticeDAO) {
 		this.noticeDAO = noticeDAO;
@@ -28,15 +23,13 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public Map<String, Object> getNoticeList(SearchCriteria cri) throws SQLException {
 
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
 			Map<String, Object> dataMap = new HashMap<String, Object>();
 
 			// 현재 page 번호에 맞는 리스트를 perPageNum 개수 만큼 가져오기.
-			List<NoticeVO> noticeList = noticeDAO.selectSearchNoticeList(session, cri);
+			List<NoticeVO> noticeList = noticeDAO.selectSearchNoticeList(cri);
 			
 			// 전체 board 개수
-			int totalCount = noticeDAO.selectSearchNoticeListCount(session, cri);
+			int totalCount = noticeDAO.selectSearchNoticeListCount(cri);
 
 			// PageMaker 생성.
 			PageMaker pageMaker = new PageMaker();
@@ -47,66 +40,36 @@ public class NoticeServiceImpl implements NoticeService {
 			dataMap.put("pageMaker", pageMaker);
 
 			return dataMap;
-		} finally {
-			session.close();
-		}
 	}
 
 	@Override
 	public NoticeVO getNotice(int nno) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
-			noticeDAO.increaseViewCount(session, nno);
-			NoticeVO board = noticeDAO.selectNoticeByNno(session, nno);
+			noticeDAO.increaseViewCount(nno);
+			NoticeVO board = noticeDAO.selectNoticeByNno(nno);
 			return board;
-		} finally {
-			session.close();
-		}
 	}
 
 	@Override
 	public NoticeVO getNoticeForModify(int nno) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
-			NoticeVO board = noticeDAO.selectNoticeByNno(session, nno);
+			NoticeVO board = noticeDAO.selectNoticeByNno(nno);
 			return board;
-		} finally {
-			session.close();
-		}
 	}
 
 	@Override
 	public void regist(NoticeVO notice) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
-
-			int nno = noticeDAO.selectNoticeSequenceNextValue(session);
+			int nno = noticeDAO.selectNoticeSequenceNextValue();
 			notice.setNno(nno);
-			noticeDAO.insertNotice(session, notice);
-		} finally {
-			session.close();
-		}
+			noticeDAO.insertNotice(notice);
 	}
 	@Override
 	public void modify(NoticeVO notice) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
-
-			noticeDAO.updateNotice(session, notice);
-		} finally {
-			session.close();
-		}
+			noticeDAO.updateNotice(notice);
 	}
 
 	@Override
 	public void remove(int nno) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
 
-			noticeDAO.deleteNotice(session, nno);
-		} finally {
-			session.close();
-		}
+			noticeDAO.deleteNotice(nno);
 	}
 	
 	

@@ -103,7 +103,7 @@ public class BoardServiceImpl implements BoardService{
          List<BoardVO> boardList = boardDAO.selectBoardCriteria(session, cri);
          //reply count 입력
          for (BoardVO board : boardList) {
-            int replycnt = replyDAO.countReply(session, board.getBno());
+            int replycnt = replyDAO.countReply(board.getBno());
             board.setReplycnt(replycnt);
          }
          //전체 board 개수

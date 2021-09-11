@@ -10,22 +10,22 @@ import kr.or.ddit.request.SearchCriteria;
 
 public interface NoticeDAO {
 
-	List<NoticeVO> selectSearchNoticeList(SqlSession session, SearchCriteria cri) throws SQLException;
+	List<NoticeVO> selectSearchNoticeList(SearchCriteria cri) throws SQLException;
 
-	int selectSearchNoticeListCount(SqlSession session, SearchCriteria cri) throws SQLException;
+	int selectSearchNoticeListCount(SearchCriteria cri) throws SQLException;
 
-	NoticeVO selectNoticeByNno(SqlSession session, int nno) throws SQLException;
+	NoticeVO selectNoticeByNno(int nno) throws SQLException;
 
 	// viewcnt 증가
-	void increaseViewCount(SqlSession session, int nno) throws SQLException;
+	void increaseViewCount(int nno) throws SQLException;
 
 	// Notice_seq.nextval 가져오기
-	int selectNoticeSequenceNextValue(SqlSession session) throws SQLException;
+	int selectNoticeSequenceNextValue() throws SQLException;
 
-	void insertNotice(SqlSession session, NoticeVO Notice) throws SQLException;
+	void insertNotice(NoticeVO Notice) throws SQLException;
 
-	void updateNotice(SqlSession session, NoticeVO Notice) throws SQLException;
+	void updateNotice(NoticeVO Notice) throws SQLException;
 
-	void deleteNotice(SqlSession session, int nno) throws SQLException;
+	void deleteNotice(int nno) throws SQLException;
 
 }

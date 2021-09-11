@@ -5,21 +5,25 @@ import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.dto.MemberVO;
 import kr.or.ddit.request.Criteria;
 import kr.or.ddit.request.SearchCriteria;
 
+@Repository
 public class MemberDAOImpl implements MemberDAO {
-	private SqlSession sqlSession;
 	
+	private SqlSession sqlSession;
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
 
 	@Override
-	public MemberVO selectMemberById( String id) throws SQLException {
+	public MemberVO selectMemberById(String id) throws SQLException {
 		MemberVO member = sqlSession.selectOne("Member-Mapper.selectMemberById", id);
+		System.out.println(member.getId());
 		return member;
 	}
 	

@@ -17,17 +17,11 @@ import kr.or.ddit.request.SearchCriteria;
 
 public class ReplyServiceImpl implements ReplyService{
 	private ReplyDAO replyDAO;
-	private SqlSessionFactory sqlSessionFactory;
 	private MemberDAO memberDAO;
 
 	public void setReplyDAO(ReplyDAO replyDAO) {
 		this.replyDAO = replyDAO;
 	}
-
-	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-		this.sqlSessionFactory = sqlSessionFactory;
-	}
-	
 	
 	public void setMemberDAO(MemberDAO memberDAO) {
 		this.memberDAO = memberDAO;
@@ -35,21 +29,18 @@ public class ReplyServiceImpl implements ReplyService{
 
 	@Override
 	public Map<String, Object> getReplyList(int bno, SearchCriteria cri) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
 		
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		
-		try {
-			
-		List<ReplyVO> replyList = replyDAO.selectReplyList(session, bno, cri);
+		List<ReplyVO> replyList = replyDAO.selectReplyList(bno, cri);
 		
 		if(replyList != null) for (ReplyVO reply : replyList) {
-			MemberVO member = memberDAO.selectMemberById(session, reply.getReplyer());
+			MemberVO member = memberDAO.selectMemberById(reply.getReplyer());
 			reply.setPicture(member.getPicture());
 		}
 		
 		
-		int count = replyDAO.countReply(session, bno);
+		int count = replyDAO.countReply(bno);
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -60,60 +51,30 @@ public class ReplyServiceImpl implements ReplyService{
 		
 		return dataMap;
 		
-		}finally {
-			session.close();
-		}
 	}
 
 	@Override
 	public int getReplyListCount(int bno) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		
-		try {
-			int count = replyDAO.countReply(session, bno);
+			int count = replyDAO.countReply(bno);
 			return count;
-		}finally {
-			session.close();
-		}
 	}
 	
 	@Override
 	public void registReply(ReplyVO reply) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		
-		try {
-			int rno = replyDAO.selectReplySeqNextValue(session);
+			int rno = replyDAO.selectReplySeqNextValue();
 			reply.setRno(rno);
 			
-			replyDAO.insertReply(session, reply);
-		}finally {
-			session.close();
-		}
+			replyDAO.insertReply(reply);
 		
 	}
 
 	@Override
 	public void modifyReply(ReplyVO reply) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		
-		try {
-			replyDAO.updateReply(session, reply);
-		}finally {
-			session.close();
-		}
+			replyDAO.updateReply(reply);
 	}
 
 	@Override
 	public void removeReply(int rno) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		
-		try {
-			replyDAO.deleteReply(session, rno);
-		}finally {
-			session.close();
-		}
+			replyDAO.deleteReply(rno);
 	}
-
-
-	
 }

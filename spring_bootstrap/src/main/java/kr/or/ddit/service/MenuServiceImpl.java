@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.dao.MenuDAO;
 import kr.or.ddit.dto.MenuVO;
 
+@Repository
 public class MenuServiceImpl implements MenuService {
-
+	
 	private MenuDAO menuDAO;
 
 	public void setMenuDAO(MenuDAO menuDAO) {
@@ -19,7 +22,6 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public List<MenuVO> getMainMenuList() throws SQLException {
-
 		List<MenuVO> menuList = null;
 		menuList = menuDAO.selectMainMenu();
 
