@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- DAO LAYER -->
+	<bean id="buyerDAO" class="com.personal.farmer.dao.BuyerDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="calenderDAO" class="com.personal.farmer.dao.CalenderDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="harvestDAO" class="com.personal.farmer.dao.HarvestDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="lprodDAO" class="com.personal.farmer.dao.LprodDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="memberDAO" class="com.personal.farmer.dao.MemberDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="menuDAO" class="com.personal.farmer.dao.MenuDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="productDAO" class="com.personal.farmer.dao.ProductDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="salesDAO" class="com.personal.farmer.dao.SalesDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="shipmentDAO" class="com.personal.farmer.dao.ShipmentDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	
+	
+	<!-- Service Layer -->
+	<bean id="buyerService" class="com.personal.farmer.service.BuyerServiceImpl"
+		p:buyerDAO-ref="buyerDAO"
+	/>
+	<bean id="calenderService" class="com.personal.farmer.service.CalenderServiceImpl"
+		p:calenderDAO-ref="calenderDAO"
+	/>
+	<bean id="harvestService" class="com.personal.farmer.service.HarvestServiceImpl"
+		p:harvestDAO-ref="harvestDAO"
+	/>
+	<bean id="lprodService" class="com.personal.farmer.service.LprodServiceImpl"
+		p:lprodDAO-ref="lprodDAO"
+	/>
+	<bean id="memberService" class="com.personal.farmer.service.MemberServiceImpl"
+		p:memberDAO-ref="memberDAO"
+	/>
+	<bean id="menuService" class="com.personal.farmer.service.MenuServiceImpl"
+		p:menuDAO-ref="menuDAO"
+	/>
+	<bean id="productService" class="com.personal.farmer.service.ProductServiceImpl"
+		p:productDAO-ref="productDAO"
+	/>
+	<bean id="salesService" class="com.personal.farmer.service.SalesServiceImpl"
+		p:salesDAO-ref="salesDAO"
+	/>
+	<bean id="shipmentService" class="com.personal.farmer.service.ShipmentServiceImpl"
+		p:shipmentDAO-ref="shipmentDAO"
+	/>
+
+
+</beans>
