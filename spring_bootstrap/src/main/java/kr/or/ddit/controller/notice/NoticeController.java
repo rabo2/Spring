@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import kr.or.ddit.dto.NoticeVO;
 import kr.or.ddit.request.SearchCriteria;
 import kr.or.ddit.service.NoticeService;
 
@@ -19,7 +20,13 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
-	@RequestMapping(value="notice/list.do", method=RequestMethod.GET)
+	@RequestMapping(value="/notice/main.do", method=RequestMethod.GET)
+	public String noticeMain() throws Exception{
+		String url = "notice/main";
+		return url;
+	}
+	
+	@RequestMapping(value="/notice/list.do", method=RequestMethod.GET)
 	public String getNoticeList(HttpServletRequest request, SearchCriteria cri) throws SQLException{
 		String url = "notice/list";
 		
@@ -29,5 +36,16 @@ public class NoticeController {
 		return url;
 	}
 	
-	
+	@RequestMapping(value="/notice/detail.do", method=RequestMethod.GET)
+	public String noticeDetail(HttpServletRequest request, int nno) throws SQLException{
+		String url = "notice/detail";
+		
+		NoticeVO notice = noticeService.getNotice(nno);
+		
+		if(notice!=null) {
+			request.setAttribute("notice", notice);
+		}
+		
+		return url;
+	}
 }

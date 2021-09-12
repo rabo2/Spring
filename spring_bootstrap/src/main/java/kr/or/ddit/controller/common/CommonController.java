@@ -70,6 +70,12 @@ public class CommonController {
 		return url;
 	}
 
+	@RequestMapping(value="/main.do", method=RequestMethod.GET)
+	public String home()throws Exception{
+		String url = "common/main";
+		return url;
+	}
+	
 	@RequestMapping(value="/subMenu.do", method=RequestMethod.GET)
 	public void subMenu(String mCode, HttpServletResponse response) throws Exception {
 	      List<MenuVO> subMenu = null;

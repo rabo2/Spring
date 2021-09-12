@@ -15,7 +15,7 @@
 		<c:if test="${not empty menuList}">
 			<c:forEach items="${menuList }" var="menu">
 				<li class="nav-item d-none d-sm-inline-block">
-					<a href="javascript:subMenu('${menu.mcode }');goPage('${menu.murl }','${menu.mcode }');" class="nav-link">${menu.mname }</a>
+					<a href="javascript:subMenu('${menu.mcode }');goPage('<%=request.getContextPath()%>${menu.murl }','${menu.mcode }');" class="nav-link">${menu.mname }</a>
 				</li>
 			</c:forEach>
 		</c:if>
