@@ -1,4 +1,4 @@
-package kr.or.ddit.controller.member;
+package kr.or.ddit.controller;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -7,12 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.command.SearchCriteria;
-import kr.or.ddit.controller.JSONResolver;
 import kr.or.ddit.dto.MemberVO;
 import kr.or.ddit.service.MemberService;
 
@@ -21,51 +24,48 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	@RequestMapping(value = "/member/main.do", method = RequestMethod.GET)
-	public String memberMain() throws Exception {
-		String url = "member/main";
-		return url;
-	}
+	@RequestMapping("/member/main")
+	public void memberMain() throws Exception {}
 
-	@RequestMapping(value = "/member/list.do", method = RequestMethod.GET)
-	public String getMemberList(HttpServletRequest request, SearchCriteria cri) throws SQLException {
-		String url = "member/list";
+	@RequestMapping("/member/list")
+	public void getMemberList(Model model, SearchCriteria cri) throws SQLException {
 		Map<String, Object> dataMap = memberService.getMemberList(cri);
-		request.setAttribute("memberList", dataMap.get("memberList"));
-		request.setAttribute("pageMaker", dataMap.get("pageMaker"));
-		return url;
+		model.addAttribute("memberList", dataMap.get("memberList"));
+		model.addAttribute("pageMaker",dataMap.get("pageMaker"));
 	}
 
-	@RequestMapping(value = "/member/detail.do", method = RequestMethod.GET)
-	public String memberDetail(HttpServletRequest request, String id) throws SQLException {
-		String url = "member/detail";
+	@RequestMapping("/member/detail")
+	public void memberDetail(Model model, String id) throws SQLException {
 
 		MemberVO member = memberService.getMember(id);
-		request.setAttribute("member", member);
-
-		return url;
+		model.addAttribute("member",member);
 	}
 
-	@RequestMapping(value = "/member/regist.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/registForm", method = RequestMethod.GET)
 	public String memberRegistForm() throws Exception {
 		String url = "member/regist";
 		return url;
 	}
 
-	@RequestMapping(value="/member/idCheck.do", method=RequestMethod.GET)
-	public void idCheck(String id, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/member/idCheck", method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> idCheck(String id, HttpServletResponse response) throws Exception {
+		ResponseEntity<String> entity = null;
 		
 		MemberVO member = memberService.getMember(id);
 		String result ="";
 		
 		if(member != null) {
 			result = "duplicated";
-			JSONResolver.view(response, result);
+			entity = new ResponseEntity<String>(result, HttpStatus.OK);
+		}else {
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
+		return entity;
 	}
 	
-	@RequestMapping(value = "/member/regist.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/member/regist", method = RequestMethod.POST)
 	public String memberRegist(MemberVO member) {
 		String url = "member/regist_success";
 
@@ -77,9 +77,7 @@ public class MemberController {
 		return url;
 	}
 
-	
-	
-	@RequestMapping(value = "/member/modify.do", method = RequestMethod.GET)
+	@RequestMapping("/member/modifyForm")
 	public String memberModifyForm(String id, HttpServletRequest request) throws SQLException {
 		String url = "member/modify";
 
@@ -89,7 +87,7 @@ public class MemberController {
 		return url;
 	}
 
-	@RequestMapping(value = "/member/modify.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/member/modify", method = RequestMethod.POST)
 	public String memberModify(MemberVO member) throws SQLException {
 		String url = "member/modify_success";
 

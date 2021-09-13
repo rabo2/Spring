@@ -21,7 +21,7 @@
 function subMenu(mCode){
 	//alert("function call sumMenu()"+mCode);	
 	if(mCode!="M000000"){
-		$.getJSON("<%=request.getContextPath()%>/subMenu.do?mCode="+mCode,function(data){
+		$.getJSON("subMenu.do?mCode="+mCode,function(data){
 			printData(data,$('.subMenuList'),$('#subMenu-list-template'),'.subMenu');
 		});
 	}else{
@@ -47,7 +47,7 @@ function goPage(url,mCode){
 	    location.hash = "#"+mCode;
 	}
 	  
-	$('iframe[name="ifr"]').attr("src",url);
+	$('iframe[name="ifr"]').attr("src","<%=request.getContextPath()%>"+url);
 }
 
 //handelbars printElement (args : data Array, appent target, handlebar template, remove class)
@@ -68,7 +68,7 @@ function printData(dataArr,target,templateObject,removeClass){
 <script type="text/x-handlebars-template"  id="subMenu-list-template" >
 {{#each .}}
 	<li class="nav-item subMenu" >
-      	<a href="javascript:goPage('<%=request.getContextPath()%>{{murl}}','{{mcode}}');" class="nav-link">
+      	<a href="javascript:goPage('{{murl}}','{{mcode}}');" class="nav-link">
           <i class="{{micon}}"></i>
              <p>{{mname}}</p>
         </a>

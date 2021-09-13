@@ -1,4 +1,4 @@
-package kr.or.ddit.controller.notice;
+package kr.or.ddit.controller;
 
 import java.sql.SQLException;
 import java.util.Map;
