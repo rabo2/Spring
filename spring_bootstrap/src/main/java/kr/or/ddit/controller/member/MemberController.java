@@ -11,9 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.controller.JSONResolver;
 import kr.or.ddit.dto.MemberVO;
-import kr.or.ddit.request.SearchCriteria;
 import kr.or.ddit.service.MemberService;
 
 @Controller

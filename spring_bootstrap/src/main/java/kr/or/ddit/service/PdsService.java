@@ -3,9 +3,9 @@ package kr.or.ddit.service;
 import java.sql.SQLException;
 import java.util.Map;
 
+import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dto.AttachVO;
 import kr.or.ddit.dto.PdsVO;
-import kr.or.ddit.request.SearchCriteria;
 
 public interface PdsService {
 

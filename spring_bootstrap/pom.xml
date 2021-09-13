@@ -168,7 +168,8 @@
 			<version>4.12</version>
 			<!-- <scope>test</scope> -->
 		</dependency>
-		<!-- sitemesh -->
+		
+		<!-- Sitemesh -->
 		<dependency>
 			<groupId>org.sitemesh</groupId>
 			<artifactId>sitemesh</artifactId>

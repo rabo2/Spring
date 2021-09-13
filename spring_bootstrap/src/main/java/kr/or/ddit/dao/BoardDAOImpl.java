@@ -6,14 +6,18 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
+import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dto.BoardVO;
-import kr.or.ddit.request.SearchCriteria;
-
 
 public class BoardDAOImpl implements BoardDAO {
-
+	
+	private SqlSession session;
+	public void setSqlSession(SqlSession session) {
+		this.session=session;
+	}
+	
 	@Override
-	public List<BoardVO> selectBoardCriteria(SqlSession session,SearchCriteria cri) throws SQLException {
+	public List<BoardVO> selectBoardCriteria(SearchCriteria cri) throws SQLException {
 		
 		int offset=cri.getStartRowNum();
 		int limit=cri.getPerPageNum();		
@@ -26,41 +30,41 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
-	public int selectBoardCriteriaTotalCount(SqlSession session,SearchCriteria cri) throws SQLException {
+	public int selectBoardCriteriaTotalCount(SearchCriteria cri) throws SQLException {
 				
 		int count=session.selectOne("Board-Mapper.selectSearchBoardListCount",cri);
 		return count;
 	}
 	
 	@Override
-	public BoardVO selectBoardByBno(SqlSession session,int bno) throws SQLException {
+	public BoardVO selectBoardByBno(int bno) throws SQLException {
 		BoardVO board=
 				session.selectOne("Board-Mapper.selectBoardByBno",bno);
 		return board;
 	}
 
 	@Override
-	public void insertBoard(SqlSession session,BoardVO board) throws SQLException {
+	public void insertBoard(BoardVO board) throws SQLException {
 		session.update("Board-Mapper.insertBoard",board);
 	}
 
 	@Override
-	public void updateBoard(SqlSession session,BoardVO board) throws SQLException {
+	public void updateBoard(BoardVO board) throws SQLException {
 		session.update("Board-Mapper.updateBoard",board);
 	}
 
 	@Override
-	public void deleteBoard(SqlSession session,int bno) throws SQLException {
+	public void deleteBoard(int bno) throws SQLException {
 		session.update("Board-Mapper.deleteBoard",bno);
 	}
 
 	@Override
-	public void increaseViewCnt(SqlSession session,int bno) throws SQLException {
+	public void increaseViewCnt(int bno) throws SQLException {
 		session.update("Board-Mapper.increaseViewCnt",bno);
 	}
 
 	@Override
-	public int selectBoardSeqNext(SqlSession session) throws SQLException {
+	public int selectBoardSeqNext() throws SQLException {
 		int seq_num=
 				session.selectOne("Board-Mapper.selectBoardSeqNext");
 		return seq_num;

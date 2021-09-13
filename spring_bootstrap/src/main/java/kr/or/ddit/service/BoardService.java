@@ -3,8 +3,8 @@ package kr.or.ddit.service;
 import java.sql.SQLException;
 import java.util.Map;
 
+import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dto.BoardVO;
-import kr.or.ddit.request.SearchCriteria;
 
 public interface BoardService {
 	

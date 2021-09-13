@@ -5,23 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-
+import kr.or.ddit.command.PageMaker;
+import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dao.AttachDAO;
 import kr.or.ddit.dao.PdsDAO;
 import kr.or.ddit.dto.AttachVO;
 import kr.or.ddit.dto.PdsVO;
-import kr.or.ddit.request.PageMaker;
-import kr.or.ddit.request.SearchCriteria;
 
 public class PdsServiceImpl implements PdsService {
-
-	private SqlSessionFactory sqlSessionFactory;
-
-	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-		this.sqlSessionFactory = sqlSessionFactory;
-	}
 
 	private PdsDAO pdsDAO;
 
@@ -37,146 +28,106 @@ public class PdsServiceImpl implements PdsService {
 
 	@Override
 	public Map<String, Object> getList(SearchCriteria cri) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		
-		try {
-			List<PdsVO> pdsList = pdsDAO.selectPdsCriteria(session, cri);
+		List<PdsVO> pdsList = pdsDAO.selectPdsCriteria(cri);
 
-			if (pdsList != null) for (PdsVO pds : pdsList) {
-					addAttachList(session, pds);
-			}
+		if (pdsList != null)
+			for (PdsVO pds : pdsList)
+				addAttachList(pds);
 
-			PageMaker pageMaker = new PageMaker();
-			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(pdsDAO.selectPdsCriteriaTotalCount(session, cri));
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(pdsDAO.selectPdsCriteriaTotalCount(cri));
 
-			Map<String, Object> dataMap = new HashMap<String, Object>();
-			dataMap.put("pdsList", pdsList);
-			dataMap.put("pageMaker", pageMaker);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("pdsList", pdsList);
+		dataMap.put("pageMaker", pageMaker);
 
-			return dataMap;
-		} finally {
-			session.close();
-		}
+		return dataMap;
 	}
 
 	@Override
 	public PdsVO getPds(int pno) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
 
-		try {
-			PdsVO pds = pdsDAO.selectPdsByPno(session, pno);
-			addAttachList(session, pds);
+		PdsVO pds = pdsDAO.selectPdsByPno(pno);
+		addAttachList(pds);
 
-			return pds;
-		} finally {
-			session.close();
-		}
+		return pds;
 	}
 
 	@Override
-	public void regist(PdsVO pds) throws SQLException { // pds에는 AttachList가 들어가 있음 / pno가 없음
-		SqlSession session = sqlSessionFactory.openSession();
-		
-		try {
-			int pno = pdsDAO.getSeqNextValue(session);
-			// pno를 심어주는 작업을 해야함
+	public void regist(PdsVO pds) throws SQLException {
 
-			pds.setPno(pno);
-			pdsDAO.insertPds(session, pds);
+		int pno = pdsDAO.getSeqNextValue();
 
-			if (pds.getAttachList() != null)
-				for (AttachVO attach : pds.getAttachList()) {
-					attach.setPno(pno);
-					attach.setAttacher(pds.getWriter());
-					attachDAO.insertAttach(session, attach);
-				}
+		pds.setPno(pno);
+		pdsDAO.insertPds(pds);
 
-		} finally {
-			session.close();
-		}
+		if (pds.getAttachList() != null)
+			for (AttachVO attach : pds.getAttachList()) {
+				attach.setPno(pno);
+				attach.setAttacher(pds.getWriter());
+				attachDAO.insertAttach(attach);
+			}
+
 	}
 
 	@Override
 	public void modify(PdsVO pds) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-	
-		try {
-			pdsDAO.updatePds(session, pds);
-			// attachDAO.deleteAllAttach(pds.getPno());
-			
-			if (pds.getAttachList() != null)
-				for (AttachVO attach : pds.getAttachList()) {
-					attach.setPno(pds.getPno());
-					attach.setAttacher(pds.getWriter());
-					attachDAO.insertAttach(session, attach);
-				}
-			
-		} finally {
-			session.close();
-		}
+
+		pdsDAO.updatePds(pds);
+		// attachDAO.deleteAllAttach(pds.getPno());
+
+		if (pds.getAttachList() != null)
+			for (AttachVO attach : pds.getAttachList()) {
+				attach.setPno(pds.getPno());
+				attach.setAttacher(pds.getWriter());
+				attachDAO.insertAttach(attach);
+
+			}
+
 	}
 
 	@Override
 	public void remove(int pno) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-	
-		try {
-			pdsDAO.deletePds(session, pno);
-			attachDAO.deleteAllAttach(session, pno);
-		} finally {
-			session.close();
-		}
+
+		pdsDAO.deletePds(pno);
 	}
 
 	@Override
 	public PdsVO read(int pno) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		
-		try {
-			PdsVO pds = pdsDAO.selectPdsByPno(session, pno);
-			pdsDAO.increaseViewCnt(session, pno);
 
-			addAttachList(session, pds);
+		PdsVO pds = pdsDAO.selectPdsByPno(pno);
+		pdsDAO.increaseViewCnt(pno);
 
-			return pds;
-		} finally {
-			session.close();
-		}
+		addAttachList(pds);
+
+		return pds;
 	}
 
 	@Override
 	public AttachVO getAttachByAno(int ano) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		
-		try {
-			AttachVO attach = attachDAO.selectAttachByAno(session, ano);
-			return attach;
-		}finally {
-			session.close();
-		}
+
+		AttachVO attach = attachDAO.selectAttachByAno(ano);
+
+		return attach;
 	}
 
 	@Override
 	public void removeAttachByAno(int ano) throws SQLException {
-		SqlSession session = sqlSessionFactory.openSession();
-		
-		try {
-			attachDAO.deleteAttach(session, ano);
-		}finally {
-			session.close();
-		}
+
+		attachDAO.deleteAttach(ano);
+
 	}
 
-	private void addAttachList(SqlSession session, PdsVO pds) throws SQLException {
-		// 이게 계속 쓰이기때문에 private으로 하나 만들어놨다.
-		if (pds == null) return; // 쿼리문으로 짜면 innerView
+	private void addAttachList(PdsVO pds) throws SQLException {
+
+		if (pds == null)
+			return;
 
 		int pno = pds.getPno();
-		List<AttachVO> attachList = attachDAO.selectAttachesByPno(session, pno);
+		List<AttachVO> attachList = attachDAO.selectAttachesByPno(pno);
 
 		pds.setAttachList(attachList);
-
 	}
 
 }

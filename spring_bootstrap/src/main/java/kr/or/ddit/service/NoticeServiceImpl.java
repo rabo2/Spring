@@ -5,17 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-
+import kr.or.ddit.command.PageMaker;
+import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dao.NoticeDAO;
 import kr.or.ddit.dto.NoticeVO;
-import kr.or.ddit.request.PageMaker;
-import kr.or.ddit.request.SearchCriteria;
 
 public class NoticeServiceImpl implements NoticeService {
-	
+
 	private NoticeDAO noticeDAO;
+
 	public void setNoticeDAO(NoticeDAO noticeDAO) {
 		this.noticeDAO = noticeDAO;
 	}
@@ -23,54 +21,56 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public Map<String, Object> getNoticeList(SearchCriteria cri) throws SQLException {
 
-			Map<String, Object> dataMap = new HashMap<String, Object>();
+		Map<String, Object> dataMap = new HashMap<String, Object>();
 
-			// 현재 page 번호에 맞는 리스트를 perPageNum 개수 만큼 가져오기.
-			List<NoticeVO> noticeList = noticeDAO.selectSearchNoticeList(cri);
-			
-			// 전체 board 개수
-			int totalCount = noticeDAO.selectSearchNoticeListCount(cri);
+		// 현재 page 번호에 맞는 리스트를 perPageNum 개수 만큼 가져오기.
+		List<NoticeVO> noticeList = noticeDAO.selectSearchNoticeList(cri);
 
-			// PageMaker 생성.
-			PageMaker pageMaker = new PageMaker();
-			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(totalCount);
+		// 전체 board 개수
+		int totalCount = noticeDAO.selectSearchNoticeListCount(cri);
 
-			dataMap.put("noticeList", noticeList);
-			dataMap.put("pageMaker", pageMaker);
+		// PageMaker 생성.
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
 
-			return dataMap;
+		dataMap.put("noticeList", noticeList);
+		dataMap.put("pageMaker", pageMaker);
+
+		return dataMap;
 	}
 
 	@Override
 	public NoticeVO getNotice(int nno) throws SQLException {
-			noticeDAO.increaseViewCount(nno);
-			NoticeVO board = noticeDAO.selectNoticeByNno(nno);
-			return board;
+		NoticeVO board = noticeDAO.selectNoticeByNno(nno);
+		noticeDAO.increaseViewCount(nno);
+		return board;
 	}
 
 	@Override
 	public NoticeVO getNoticeForModify(int nno) throws SQLException {
-			NoticeVO board = noticeDAO.selectNoticeByNno(nno);
-			return board;
+		NoticeVO board = noticeDAO.selectNoticeByNno(nno);
+		return board;
 	}
 
 	@Override
 	public void regist(NoticeVO notice) throws SQLException {
-			int nno = noticeDAO.selectNoticeSequenceNextValue();
-			notice.setNno(nno);
-			noticeDAO.insertNotice(notice);
+
+		int nno = noticeDAO.selectNoticeSequenceNextValue();
+		notice.setNno(nno);
+		noticeDAO.insertNotice(notice);
 	}
+
 	@Override
 	public void modify(NoticeVO notice) throws SQLException {
-			noticeDAO.updateNotice(notice);
+
+		noticeDAO.updateNotice(notice);
 	}
 
 	@Override
 	public void remove(int nno) throws SQLException {
 
-			noticeDAO.deleteNotice(nno);
+		noticeDAO.deleteNotice(nno);
 	}
-	
-	
+
 }

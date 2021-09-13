@@ -9,31 +9,36 @@ import kr.or.ddit.dto.AttachVO;
 
 public class AttachDAOImpl implements AttachDAO{
 	
+	private SqlSession session;
+	public void setSqlSession(SqlSession session) {
+		this.session=session;
+				
+	}
 	
 	@Override
-	public void insertAttach(SqlSession session,AttachVO attach) throws SQLException {
+	public void insertAttach(AttachVO attach) throws SQLException {
 		session.update("Attach-Mapper.insertAttach",attach);
 	}
 
 	@Override
-	public void deleteAttach(SqlSession session,int ano) throws SQLException {
+	public void deleteAttach(int ano) throws SQLException {
 		session.update("Attach-Mapper.deleteAttach",ano);		
 		
 	}
 
 	@Override
-	public List<AttachVO> selectAttachesByPno(SqlSession session,int pno) throws SQLException {
+	public List<AttachVO> selectAttachesByPno(int pno) throws SQLException {
 		List<AttachVO> attachList=session.selectList("Attach-Mapper.selectAttachByPno",pno);
 		return attachList;
 	}
 
 	@Override
-	public void deleteAllAttach(SqlSession session,int pno) throws SQLException {
+	public void deleteAllAttach(int pno) throws SQLException {
 		session.update("Attach-Mapper.deleteAllAttach",pno);		
 	}
 	
 	@Override
-	public AttachVO selectAttachByAno(SqlSession session,int ano) throws SQLException {
+	public AttachVO selectAttachByAno(int ano) throws SQLException {
 		AttachVO attach=session.selectOne("Attach-Mapper.selectAttachByAno",ano);
 		return attach;
 	}
