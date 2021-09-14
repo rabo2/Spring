@@ -109,6 +109,26 @@
 <script>
 window.onload=function(){
     MemberPictureThumb(document.querySelector('[data-id="${member.id}"]'),'${member.picture}','<%=request.getContextPath()%>');
- }
+	
+    <c:if test="${param.from eq 'modify'}">
+	    alert('${member.id}님의 정보가 수정되었습니다');
+		location.href = "detail.do?id=${member.id}";
+		
+		if(${parentReload}){
+			if(confirm('로그인 사용자의 정보가 수정되었습니다. \n화면을 닫고 새로고침 하시겠습니까?')){
+				window.opener.parent.location.reload(true);
+				window.close();
+			}
+		}
+	</c:if>
+	<c:if test="${param.from eq 'remove'}">
+		alert("${member.name}님의 정보가 삭제되었습니다.");
+		<c:if test="${empty loginUser}">
+			window.opener.parent.location.href="<%=request.getContextPath()%>/";
+		</c:if>
+			window.close();
+	</c:if>
+	
+}
 </script>
 </body>
