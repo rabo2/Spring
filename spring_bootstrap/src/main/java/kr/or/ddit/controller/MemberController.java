@@ -215,8 +215,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/remove", method=RequestMethod.GET)
-	public String remove(String id, HttpSession session, Model model, RedirectAttributes rttr) throws SQLException{
-		String url = "redircet:/member/detail.do";
+	public String remove(String id, HttpSession session, Model model) throws SQLException{
+		String url = "member/remove_success";
 		
 		MemberVO member;
 		
@@ -228,6 +228,13 @@ public class MemberController {
 		}
 		
 		memberService.remove(id);
+		
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		if(loginUser.getId().equals(member.getId())) {
+			session.invalidate();
+		}
+		
+		model.addAttribute("member",member);
 		
 		
 		return url;
