@@ -22,6 +22,7 @@ public class NoticeController {
 	
 	@RequestMapping(value="/notice/main.do", method=RequestMethod.GET)
 	public String noticeMain() throws Exception{
+		System.out.println("masterbranch");
 		String url = "notice/main";
 		return url;
 	}
