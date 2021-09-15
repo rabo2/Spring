@@ -9,7 +9,7 @@ function OpenWindow(UrlStr, WinTitle, WinWidth, WinHeight) {
 	win.focus() ; 
 }
 
-//팝업창 닫기
+// 팝업창 닫기
 function CloseWindow(parentURL){
 	if(parentURL){
 		window.opener.parent.location.href=parentURL;
@@ -26,6 +26,8 @@ function list_go(page,url){
 	
 	var jobForm=$('#jobForm');
 	
+	if(!page) page=1;
+
 	jobForm.find("[name='page']").val(page);
 	jobForm.find("[name='perPageNum']").val($('select[name="perPageNum"]').val());
 	jobForm.find("[name='searchType']").val($('select[name="searchType"]').val());
@@ -37,8 +39,8 @@ function list_go(page,url){
 	}).submit();
 }
 
-//사용자 사진 출력
-function MemberPictureThumb(targetObj, fileName, contextPath){ //(대상, 이미지파일명)
+// 사용자 사진 출력
+function MemberPictureThumb(targetObj, fileName, contextPath){ // (대상, 이미지파일명)
 	targetObj.style.backgroundImage="url('"+contextPath+"/member/getPicture.do?picture="+fileName+"')";
 	targetObj.style.backgroundPosition="center";
 	targetObj.style.backgroundRepeat="no-repeat";

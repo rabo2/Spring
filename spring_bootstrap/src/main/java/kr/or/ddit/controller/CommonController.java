@@ -59,32 +59,33 @@ public class CommonController {
 
 	@RequestMapping("/subMenu")
 	@ResponseBody
-	public ResponseEntity<List<MenuVO>> subMenu(@RequestParam(defaultValue = "M000000") String mCode, HttpServletResponse response) throws SQLException{
-		ResponseEntity<List<MenuVO>> entity = null; 
-		
+	public ResponseEntity<List<MenuVO>> subMenu(@RequestParam(defaultValue = "M000000") String mCode,
+			HttpServletResponse response) throws SQLException {
+		ResponseEntity<List<MenuVO>> entity = null;
+
 		try {
 			List<MenuVO> subMenuList = menuService.getSubMenuList(mCode);
 			entity = new ResponseEntity<List<MenuVO>>(subMenuList, HttpStatus.OK);
-		}catch (Exception e) {
-			entity = new ResponseEntity<List<MenuVO>>(HttpStatus.INTERNAL_SERVER_ERROR); 
+		} catch (Exception e) {
+			entity = new ResponseEntity<List<MenuVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		return entity;
 	}
-	
-	
-	@RequestMapping(value = "/common/loginForm", method = RequestMethod.GET)
-	public void loginForm() {}
 
-	
+	@RequestMapping(value = "/common/loginForm", method = RequestMethod.GET)
+	public void loginForm() {
+	}
+
 	@RequestMapping(value = "/common/login", method = RequestMethod.POST)
-	public String login(String id, String pwd, HttpServletRequest request ,HttpSession session, RedirectAttributes rttr) throws Exception{
+	public String login(String id, String pwd, HttpServletRequest request, HttpSession session, RedirectAttributes rttr)
+			throws Exception {
 		String url = "redirect:/index.do";
 
 		try {
 			memberService.login(id, pwd);
 			session.setAttribute("loginUser", memberService.getMember(id));
-			
+
 		} catch (InvalidPasswordException | NotFoundIDException e) {
 			rttr.addFlashAttribute("message", e.getMessage());
 			url = "redirect:/common/loginForm";
@@ -93,21 +94,31 @@ public class CommonController {
 			e.printStackTrace();
 			throw e;
 		}
-
 		return url;
 	}
-	
-	@RequestMapping(value="/common/logout", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/common/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		String url = "redirect:/";
 		session.invalidate();
 		return url;
 	}
-	
-	@RequestMapping(value="/main", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String homePage() {
 		String url = "common/main";
 		return url;
 	}
 
+	@RequestMapping(value = "/getMcode", method = RequestMethod.GET)
+	public ResponseEntity<MenuVO> getMcode(String mName) throws Exception {
+		ResponseEntity<MenuVO> entity = null;
+		try {
+			MenuVO menu = menuService.getMenuByMname(mName);
+			entity = new ResponseEntity<MenuVO>(menu, HttpStatus.OK);
+		} catch (SQLException e) {
+			entity = new ResponseEntity<MenuVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return entity;
+	}
 }

@@ -106,10 +106,11 @@ public class NoticeController {
 	
 	@RequestMapping(value="/remove", method=RequestMethod.GET)
 	public String remove(int nno, RedirectAttributes rttr) throws Exception{
-		String url = "redirect:/notice/list.do";
+		String url = "redirect:/notice/detail.do";
 		noticeService.remove(nno);
 		
 		rttr.addFlashAttribute("from","remove");
+		rttr.addAttribute("nno",nno);
 		
 		return url;
 	}

@@ -18,14 +18,6 @@
 			window.close();
 		</script>
 	</c:if>
-	<c:if test="${from eq 'remove'}">
-		<script>	
-			alert('공지사항 삭제가 성공했습니다');
-			window.opener.location.reload();
-			window.close();
-		</script>
-	</c:if>
-	
     <!-- Main content -->
    <section class="content-header">
         <div class="container-fluid">
