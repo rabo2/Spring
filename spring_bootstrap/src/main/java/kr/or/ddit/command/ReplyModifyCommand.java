@@ -1,4 +1,4 @@
-package kr.or.ddit.request;
+package kr.or.ddit.command;
 
 import kr.or.ddit.dto.ReplyVO;
 

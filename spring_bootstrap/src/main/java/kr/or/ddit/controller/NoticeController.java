@@ -61,7 +61,7 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/detail")
-	public ModelAndView detail(int nno, @RequestParam(defaultValue="")String from, HttpServletRequest requset,ModelAndView mnv) throws SQLException{
+	public ModelAndView detail(int nno, @RequestParam(defaultValue="")String from,ModelAndView mnv) throws SQLException{
 		String url = "notice/detail";
 		NoticeVO notice = null;
 		
@@ -104,7 +104,7 @@ public class NoticeController {
 		return url;
 	}
 	
-	@RequestMapping(value="/remove", method=RequestMethod.GET)
+	@RequestMapping(value="/remove", method=RequestMethod.POST)
 	public String remove(int nno, RedirectAttributes rttr) throws Exception{
 		String url = "redirect:/notice/detail.do";
 		noticeService.remove(nno);

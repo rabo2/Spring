@@ -13,6 +13,14 @@
 <title>공지목록</title>
 
 <body>
+<c:if test="${from eq 'regist' }">
+	<script>
+		alert('게시글을 등록하셨습니다');
+		window.close();
+		window.opener.location.reload();
+	</script>
+</c:if>
+
 	 <!-- Main content -->
 	<section class="content-header">
 	  	<div class="container-fluid">
@@ -92,7 +100,7 @@
 							<td id="boardTitle" style="text-align:left;max-width: 100px; overflow: hidden; 
 												white-space: nowrap; text-overflow: ellipsis;">
 												
-							<a href="javascript:OpenWindow('detail.do?bno=${board.bno }','상세보기',800,700);">
+							<a href="javascript:OpenWindow('detail.do?bno=${board.bno }&from=list','상세보기',800,700);">
 								<span class="col-sm-12 ">${board.title }
 									<c:if test="${board.replycnt ne 0 }">		
 										<span class="nav-item">															
