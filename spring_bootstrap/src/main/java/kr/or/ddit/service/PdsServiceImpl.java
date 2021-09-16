@@ -82,9 +82,7 @@ public class PdsServiceImpl implements PdsService {
 				attach.setPno(pds.getPno());
 				attach.setAttacher(pds.getWriter());
 				attachDAO.insertAttach(attach);
-
 			}
-
 	}
 
 	@Override

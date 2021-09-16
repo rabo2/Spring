@@ -18,7 +18,22 @@
 </head>
 
 <body>
-  
+<c:if test="${from eq 'regist' }">
+    <script>
+     alert("자료 등록에 성공했습니다.\n자료실 페이지로 이동합니다.");
+     window.onload=function(){ //jQuery가 아직 안읽혀짐 이건 siteMesh
+	     $.ajax({
+	        url:"<%=request.getContextPath()%>/getMcode.do?mName=자료실목록",
+	        type:"get",
+	        success:function(menu){
+	           window.opener.parent.location.href="<%=request.getContextPath()%>/index.do?mCode="+menu.mcode;
+	           window.close();
+	        }
+	     });
+     }
+  </script>
+</c:if>
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
     	<div class="container-fluid">
@@ -85,7 +100,7 @@
 							<td>${pds.pno }</td>
 							<td id="boardTitle" style="text-align:left;max-width: 100px; overflow: hidden;
 										 white-space: nowrap; text-overflow: ellipsis;">
-								<a href="javascript:OpenWindow('detail.do?pno=${pds.pno }','상세보기',800,700);">
+								<a href="javascript:OpenWindow('detail.do?pno=${pds.pno }&from=list','상세보기',800,700);">
 									<span class="col-sm-12 ">${pds.title }</span>
 								</a>
 							</td>

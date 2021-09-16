@@ -7,6 +7,19 @@
 <title>자료실 상세보기</title>
 
 <body>
+<c:if test="${from eq 'modify' }">
+	<script>
+		alert('수정되었습니다');
+		window.opener.location.reload();
+	</script>
+</c:if>
+<c:if test="${from eq 'remove' }">
+	<script>
+		alert('삭제었습니다');
+		window.opener.location.reload();
+		window.close();
+	</script>
+</c:if>
 	 <!-- Content Header (Page header) -->
     <section class="content-header">
     	<div class="container-fluid">
@@ -81,7 +94,9 @@
 														<span class ="info-box-text">
 															<fmt:formatDate value="${attach.regDate }" pattern="yyyy-MM-dd" />	
 														</span>
-														<span class ="info-box-number">${attach.fileName }</span>
+														<span class ="info-box-number">
+															${attach.fileName }
+														</span>
 													</div>
 												</div>
 											 </div>							
