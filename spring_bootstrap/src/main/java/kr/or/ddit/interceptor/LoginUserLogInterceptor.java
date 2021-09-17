@@ -42,6 +42,9 @@ public class LoginUserLogInterceptor extends HandlerInterceptorAdapter {
 					+request.getRemoteAddr()+","
 					+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		
+		System.out.println(savePath);
+		System.out.println(saveFileName);
+		
 		File file=new File(savePath);
 		if(!file.exists()){
 			file.mkdirs();
