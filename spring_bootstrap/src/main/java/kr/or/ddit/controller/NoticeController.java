@@ -3,6 +3,7 @@ package kr.or.ddit.controller;
 import java.sql.SQLException;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.omg.CosNaming.NamingContextPackage.NotEmpty;
@@ -47,12 +48,13 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/regist")
-	public String regist(NoticeRegistCommand regReq, RedirectAttributes rttr) throws Exception{
+	public String regist(NoticeRegistCommand regReq, RedirectAttributes rttr, HttpServletRequest request) throws Exception{
 		String url = "redirect:/notice/list";
 		
 		NoticeVO notice = regReq.toNoticeVO();
 		
-		notice.setTitle(HTMLInputFilter.htmlSpecialChars(notice.getTitle()));
+		notice.setTitle((String)request.getAttribute("XSStitle"));
+		
 		noticeService.regist(notice);
 		
 		rttr.addFlashAttribute("from", "regist");
@@ -91,11 +93,11 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
-	public String modify(NoticeModifyCommand modReq,RedirectAttributes rttr) throws SQLException{
+	public String modify(NoticeModifyCommand modReq,RedirectAttributes rttr, HttpServletRequest request) throws SQLException{
 		String url = "redirect:/notice/detail.do";
 		
 		NoticeVO notice = modReq.toNoticeVO();
-		notice.setTitle(HTMLInputFilter.htmlSpecialChars(notice.getTitle()));
+		notice.setTitle((String)request.getAttribute("XSStitle"));
 		noticeService.modify(notice);
 		
 		rttr.addAttribute("nno", notice.getNno());
@@ -104,7 +106,7 @@ public class NoticeController {
 		return url;
 	}
 	
-	@RequestMapping(value="/remove", method=RequestMethod.POST)
+	@RequestMapping(value="/remove", method=RequestMethod.GET)
 	public String remove(int nno, RedirectAttributes rttr) throws Exception{
 		String url = "redirect:/notice/detail.do";
 		noticeService.remove(nno);

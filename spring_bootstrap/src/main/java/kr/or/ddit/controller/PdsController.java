@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,14 +68,14 @@ public class PdsController {
 	}
 
 	@RequestMapping(value = "/regist", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
-	public String regist(PdsRegistCommand registReq, RedirectAttributes rttr) throws Exception {
+	public String regist(PdsRegistCommand registReq, RedirectAttributes rttr, HttpServletRequest request) throws Exception {
 
 		String url = "redirect:/pds/list.do";
 		PdsVO pds = registReq.toPdsVO();
 
 		List<AttachVO> attachList = GetAttachesAsMultipartFiles.save(registReq.getUploadFile(), fileUploadPath);
 
-		pds.setTitle(HTMLInputFilter.htmlSpecialChars(pds.getTitle()));
+		pds.setTitle((String)request.getAttribute("XSStitle"));
 		pds.setAttachList(attachList);
 
 		service.regist(pds);
@@ -129,7 +131,7 @@ public class PdsController {
 
 	
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(PdsModifyCommand modifyReq, RedirectAttributes rttr) throws Exception {
+	public String modify(PdsModifyCommand modifyReq, RedirectAttributes rttr, HttpServletRequest request) throws Exception {
 		String url = "redirect:/pds/detail.do";
 
 		String[] anoList = modifyReq.getDeleteFile();
@@ -148,7 +150,7 @@ public class PdsController {
 		PdsVO pds = modifyReq.toPdsVO();
 
 		pds.setAttachList(attachList);
-		pds.setTitle(HTMLInputFilter.htmlSpecialChars(pds.getTitle()));
+		pds.setTitle((String)request.getAttribute("XSStitle"));
 		service.modify(pds);
 
 		rttr.addFlashAttribute("from", "modify");

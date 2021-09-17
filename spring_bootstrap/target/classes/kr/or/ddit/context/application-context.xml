@@ -6,12 +6,12 @@
 	
 	<!-- boardImgPath -->
 	<bean id="imgPath" class="java.lang.String">
-		<constructor-arg value="${summernote.img}"/>
+		<constructor-arg value="${summernote.img}" />      
 	</bean>
 	
 	<!-- member.picture -->
 	<bean id="picturePath" class="java.lang.String">
-		<constructor-arg value="${member.picture.upload}"/>
+		<constructor-arg value="${member.picture.upload}" />      
 	</bean>
 	
 	<!-- file upload -->
@@ -19,54 +19,67 @@
 		<constructor-arg value="${pds.upload}"/>
 	</bean>
 	
-	<!-- DAO -->
-	<bean id="memberDAO" class="kr.or.ddit.dao.MemberDAOImpl"
-		 p:sqlSession-ref="sqlSession"
-	/>
-	<bean id="menuDAO" class="kr.or.ddit.dao.MenuDAOImpl"
-		p:sqlSession-ref="sqlSession"
-	/>
-	<bean id="noticeDAO" class="kr.or.ddit.dao.NoticeDAOImpl"
-		p:sqlSession-ref="sqlSession"
-	/>
-	<bean id="boardDAO" class="kr.or.ddit.dao.BoardDAOImpl"
-		p:sqlSession-ref="sqlSession"
-	/>
-	<bean id="replyDAO" class="kr.or.ddit.dao.ReplyDAOImpl"
-		p:sqlSession-ref="sqlSession"
-	/>
-	<bean id="pdsDAO" class="kr.or.ddit.dao.PdsDAOImpl"
-		p:sqlSession-ref="sqlSession"
-	/>
-	<bean id="attachDAO" class="kr.or.ddit.dao.AttachDAOImpl"
-		p:sqlSession-ref="sqlSession"
-	/>
+	<!-- login user log path -->
+	<bean id="loginUserLogSavePath" class="java.lang.String">
+		<constructor-arg value="${login.user.log}" />
+	</bean>
 	
-	<!-- Service Layer -->	
-	<bean id="memberService" class="kr.or.ddit.service.MemberServiceImpl"
-		p:memberDAO-ref="memberDAO"
-	/>
-
-	<bean id="menuService" class="kr.or.ddit.service.MenuServiceImpl"
-		p:menuDAO-ref="menuDAO"
-	/>
+	<!-- DAO	 -->
+	<bean id="menuDAO"
+	      class="kr.or.ddit.dao.MenuDAOImpl"
+	      p:sqlSession-ref="sqlSession"
+	      />
+	      	      
+	<bean id="memberDAO" 
+		  class="kr.or.ddit.dao.MemberDAOImpl"
+	      p:sqlSession-ref="sqlSession" />
+		
+	<bean id="boardDAO" 
+		  class="kr.or.ddit.dao.BoardDAOImpl"
+		  p:sqlSession-ref="sqlSession" />
+		
+	<bean id="replyDAO" 
+	      class="kr.or.ddit.dao.ReplyDAOImpl"
+		  p:sqlSession-ref="sqlSession" />
+		
+	<bean id="pdsDAO"
+		  class="kr.or.ddit.dao.PdsDAOImpl"
+		  p:sqlSession-ref="sqlSession" />
+	<bean id="noticeDAO"
+	      class="kr.or.ddit.dao.NoticeDAOImpl"
+	      p:sqlSession-ref="sqlSession"
+	      />	      	
+	<bean id="attachDAO" 
+		  class="kr.or.ddit.dao.AttachDAOImpl"
+		  p:sqlSession-ref="sqlSession" />
 	
-	<bean id="noticeService" class="kr.or.ddit.service.NoticeServiceImpl"
-		p:noticeDAO-ref="noticeDAO"
-	/>
 	
-	<bean id="boardService" class="kr.or.ddit.service.BoardServiceImpl"
-		p:boardDAO-ref="boardDAO"
-		p:replyDAO-ref="replyDAO"
-	/>
-	
-	<bean id="replyService" class="kr.or.ddit.service.ReplyServiceImpl"
-		p:replyDAO-ref="replyDAO"
-	/>
-
-	<bean id="pdsService" class="kr.or.ddit.service.PdsServiceImpl"
-		p:attachDAO-ref="attachDAO"
-		p:pdsDAO-ref="pdsDAO"
-	/>
-
+	<!-- service  -->
+	<bean id="menuService"
+	      class="kr.or.ddit.service.MenuServiceImpl"
+	      p:menuDAO-ref="menuDAO"
+	      />
+	<bean id="memberService"
+		  class="kr.or.ddit.service.MemberServiceImpl"
+		  p:memberDAO-ref="memberDAO"
+		  />
+	<bean id="boardService"
+	      class="kr.or.ddit.service.BoardServiceImpl"
+	      p:boardDAO-ref="boardDAO"
+	      p:replyDAO-ref="replyDAO"
+	      />
+	<bean id="pdsService"
+	      class="kr.or.ddit.service.PdsServiceImpl"
+	      p:pdsDAO-ref="pdsDAO"
+	      p:attachDAO-ref="attachDAO"
+	      />	
+	<bean id="noticeService"
+		  class="kr.or.ddit.service.NoticeServiceImpl"
+		  p:noticeDAO-ref="noticeDAO"
+		  />
+		  
+	<bean id="replyService"
+	      class="kr.or.ddit.service.ReplyServiceImpl"
+	      p:replyDAO-ref="replyDAO"
+	      />        
 </beans>

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.josephoconnell.html.HTMLInputFilter;
+
 import kr.or.ddit.command.PageMaker;
 import kr.or.ddit.command.ReplyModifyCommand;
 import kr.or.ddit.command.ReplyRegistCommand;
@@ -35,7 +37,7 @@ import kr.or.ddit.service.ReplyService;
 
 @RestController
 @RequestMapping("/replies")
-public class ReplyController {
+public class BoardReplyController {
 
 	@Autowired
 	private ReplyService service;
@@ -64,11 +66,11 @@ public class ReplyController {
 		ResponseEntity<String> entity = null;
 
 		ReplyVO reply = replyReq.toReolyVO();
-
+		reply.setReplytext(HTMLInputFilter.htmlSpecialChars(reply.getReplytext()));
 		try {
 
 			service.registReply(reply);
-
+			
 			SearchCriteria cri = new SearchCriteria();
 
 			Map<String, Object> dataMap = service.getReplyList(reply.getBno(), cri);

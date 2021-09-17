@@ -102,7 +102,8 @@ function modify_go(){
 }
 
 function remove_go(){
-	if(answer) formObj.attr('action','remove.do','method:post').submit();
+	var answer = confirm('해당 공지사항을 삭제하시겠습니까?');
+	if(answer) formObj.attr('action','remove.do','method','post').submit();
 }
 </script>
 </body>
