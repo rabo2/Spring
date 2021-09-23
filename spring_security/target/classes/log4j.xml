@@ -14,6 +14,14 @@
 	<logger name="com.spring.security">
 		<level value="info" />
 	</logger>
+	<logger name="com.spring.dao">
+		<level value="info" />
+	</logger>
+	<logger name="com.spring.service">
+		<level value="info" />
+	</logger>
+	
+	
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
