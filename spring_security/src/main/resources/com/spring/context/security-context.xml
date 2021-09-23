@@ -41,6 +41,7 @@
 	      			  
       />
       <logout logout-url="/commons/logout"
+      		  invalidate-session="true"
       		  logout-success-url="/"/>
    </http>
    
