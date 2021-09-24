@@ -21,15 +21,15 @@ public class MemberServiceImpl implements MemberService {
 		this.memberDAO = memberDAO;
 	}
 
-	@Override
-	public void login(String id, String pwd) throws SQLException, NotFoundIDException, InvalidPasswordException {
-		MemberVO member = memberDAO.selectMemberById(id);
-		if (member == null)
-			throw new NotFoundIDException();
-		if (!pwd.equals(member.getPwd()))
-			throw new InvalidPasswordException();
-
-	}
+//	@Override
+//	public void login(String id, String pwd) throws SQLException, NotFoundIDException, InvalidPasswordException {
+//		MemberVO member = memberDAO.selectMemberById(id);
+//		if (member == null)
+//			throw new NotFoundIDException();
+//		if (!pwd.equals(member.getPwd()))
+//			throw new InvalidPasswordException();
+//
+//	}
 
 	@Override
 	public MemberVO getMember(String id) throws SQLException {

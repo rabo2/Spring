@@ -52,8 +52,6 @@ public class MemberController {
 		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
 		
-		if(true) throw new SQLException();
-		
 		return mnv;
 	}
 
