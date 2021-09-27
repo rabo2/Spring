@@ -8,12 +8,18 @@
 
    <!-- 인증 -->
    <authentication-manager>
-      <authentication-provider>
-         <jdbc-user-service data-source-ref="dataSourceSpied"
-            users-by-username-query="select id as username,pwd as password,enabled from member where id=?"
-            authorities-by-username-query="select id as username,authority from member where id=?"/>         
-      </authentication-provider>
+<!--       <authentication-provider> -->
+<!--          <jdbc-user-service data-source-ref="dataSourceSpied" -->
+<!--             users-by-username-query="select id as username,pwd as password,enabled from member where id=?" -->
+<!--             authorities-by-username-query="select id as username,authority from member where id=?"/>          -->
+<!--       </authentication-provider> -->
+		<authentication-provider ref="authenticator"/>
    </authentication-manager>
+   
+   <beans:bean id="authenticator"
+   			   class="kr.or.ddit.security.CustomAuthenticationProvider"
+			   p:memberDAO-ref="memberDAO"   
+   />
    
    <!-- 인허가 -->
    <http pattern="/resources/**" security="none"/>
