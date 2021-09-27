@@ -14,6 +14,7 @@
       <typeAlias type="kr.or.ddit.dto.ReplyVO" alias="reply" />
       <typeAlias type="kr.or.ddit.dto.PdsVO" alias="pds" />
       <typeAlias type="kr.or.ddit.dto.AttachVO" alias="attach" />
+      <typeAlias type="kr.or.ddit.dto.LoginUserLogVO" alias="log" />
    </typeAliases>
 
 

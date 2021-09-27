@@ -31,6 +31,9 @@
 		<include refid="search" />
 	</select>
 	
+	<select id="selectMemberList" resultType="member">
+		select * from member
+	</select>	
 	
 	<select id="selectMemberById" parameterType="str" resultType="member">
 		select

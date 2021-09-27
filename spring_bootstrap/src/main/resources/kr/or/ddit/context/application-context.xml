@@ -23,6 +23,10 @@
 	<bean id="loginUserLogSavePath" class="java.lang.String">
 		<constructor-arg value="${login.user.log}" />
 	</bean>
+
+	<bean id="loginUserLogSaveFileName" class="java.lang.String">
+		<constructor-arg value="login_user_log.csv" />
+	</bean>
 	
 	<!-- DAO	 -->
 	<bean id="menuDAO"
@@ -52,6 +56,10 @@
 	<bean id="attachDAO" 
 		  class="kr.or.ddit.dao.AttachDAOImpl"
 		  p:sqlSession-ref="sqlSession" />
+		  
+	<bean id="loginUserLogDAO"
+		  class="kr.or.ddit.dao.LoginUserLogDAOImpl"
+		  p:sqlSession-ref="sqlSession"/>
 	
 	
 	<!-- service  -->
@@ -77,10 +85,14 @@
 		  class="kr.or.ddit.service.NoticeServiceImpl"
 		  p:noticeDAO-ref="noticeDAO"
 		  />
-		  
 	<bean id="replyService"
 	      class="kr.or.ddit.service.ReplyServiceImpl"
 	      p:replyDAO-ref="replyDAO"
-	      />        
+	      />
+	<bean id="loginUserLogService"
+		  class="kr.or.ddit.service.LoginUserLogServiceImpl"
+		  p:loginUserLogDAO-ref="loginUserLogDAO"
+		  />
+	      
 </beans>
 

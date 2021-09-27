@@ -65,6 +65,8 @@
    <beans:bean id="loginSuccessHandler"
             class="kr.or.ddit.security.LoginSuccessHandler"
             p:defaultTargetUrl="/"
+            p:savePath-ref="loginUserLogSavePath"
+            p:saveFileName-ref="loginUserLogSaveFileName"
             />
    <beans:bean id="loginFailureHandler"
              class="kr.or.ddit.security.LoginFailureHandler"
