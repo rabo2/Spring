@@ -33,4 +33,18 @@
 				   cron="*/10 * * * * *"/>
 	</scheduled-tasks>	
 	
+	<beans:bean id="summernoteImageRemoveTask"
+				class="kr.or.ddit.scheduler.SummernoteImageRemoveScheduler"
+				p:pdsService-ref="pdsService"
+				p:noticeService-ref="noticeService"
+				p:boardService-ref="boardService"
+				p:imgPath-ref="imgPath"
+	/>
+	<scheduler id="summernoteImageScheduler"/>
+	<scheduled-tasks scheduler="summernoteImageScheduler">
+		<scheduled ref="summernoteImageRemoveTask" 
+				   method="fileRemove"
+				   cron="*/20 * * * * *"/>
+	</scheduled-tasks>
+	
 </beans:beans>
